@@ -15,3 +15,9 @@ resource "local_sensitive_file" "name" {
 data "local_file" "dogs" {
   filename = "/root/dogs.txt"
 }
+
+
+provider "aws" {
+  region = ca-central-1
+  
+}
