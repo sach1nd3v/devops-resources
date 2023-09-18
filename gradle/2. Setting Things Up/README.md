@@ -1,0 +1,13 @@
+Installing JDK and Setting Up Environment
+-----------------------------------------
+- Install JDK 1.8 or Higher form whatever you need from below websites
+- Oracle JDK : https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html
+- java[.]com : https://www.java.com/en/download/manual.jsp
+- Or Whatever you are allowed or required
+- Add the `java` executable inside bin to the PATH variable
+- Additionally you can set JAVA_HOME variable to java intallation path
+- Run `java -version` to check installtion
+- Install Preferd IDE like IntelleJ or Eclipe and required Gradle plugin
+- You can install BuildShip plugin for Eclipe to work with Gradle
+- Idea: https://www.jetbrains.com/idea/
+- Eclipse : https://www.eclipse.org/downloads/
