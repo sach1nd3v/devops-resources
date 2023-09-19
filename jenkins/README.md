@@ -5,9 +5,6 @@ Introduction
 ------------
 - The Jenkins continuous integration platform is one of the most capable and widely used automation frameworks in the world.
 - In this course we'll look at advanced ways to use Jenkins.
--  We'll start by discussing why Jenkins is an excellent tool for enabling a DevOps approach to software development. 
-- Then we'll see how Jenkins allows engineers and developers to create pipelines using configuration as code stored in GitHub repositories. 
-- We'll go even further as we explore distributed builds, managing artifacts, and the steps needed to keep Jenkins secure.
 - URL: https://www.jenkins.io/doc/
 
 Prequisites
@@ -16,14 +13,15 @@ Prequisites
 - Configure  Global Tools
 - Create and run freestyle jobs
 - Use parameters with Jobs
+- Git (Github, Gitllab, BitBucket)
 
 Jenkins and DevOps
 ------------------
 - The DevOps Life Cycle consists of `eight stages` in the `planning, development, and operation` of a system, or software application. 
 - The DevOps Life Cycle is presented as an infinity symbol because the cycle is continuous. Each step is repeated in order until the system or application is decommissioned. 
 - The loop is divided into two groups with the first group representing the `development stages` of the cycle, and the second group representing the `operational stages`.
-- In the development group we start with the stage labeled `plan` and then move on to `code`, `build` and `test`. 
-- In the operations group we continue the cycle with `release`, `deploy`, `operate` and `monitor`.
+- In the **`development`** group we start with the stage labeled `plan` and then move on to `code`, `build` and `test`. 
+- In the **`operations`** group we continue the cycle with `release`, `deploy`, `operate` and `monitor`.
 -  Jenkins is the perfect tool for `automating processes`, tied to the `build, test, release and deploy` stages.
 - When tools like Jenkins are used to automate the `build and test` stages, the process is known as `continuous integration`. 
 - Using automation in the `release and deploy` stages is called `continuous delivery`. 
@@ -41,14 +39,14 @@ Jenkins Installation
 
 Jenkins Pipeline
 ----------------
-- Jenkins supports `scripted` and `declarative` pipeline.
+- Jenkins supports `scripted` and `declarative` pipelines.
 - Scripted pipeline starts with `node` block and uses Groovy based DSL.
-- Declarative piplein starts with `pipeline` block and evolution of scripted piplein and modesl the CI/CD with more readable syntax.
+- Declarative piplines starts with `pipeline` block and it is evolution of scripted pipline  and models the CI/CD with more readable syntax.
 
 #####First Pipeline Example
-- Go to `New Item` > Give the name > Then Select `Pipeline`and OK.
-- Go to `Pipeline` tab > Select definition `Pipeline script` > and in Script select `Hello World` from the `try sample pipeline` dropdown.
-- Script body will be as below...
+- Go to `New Item` > Give a name > Then Select `Pipeline` Job type and OK.
+- Go to job > Go to  `Pipeline` tab > Select definition `Pipeline script` > and in Script select `Hello World` from the `try sample pipeline` dropdown.
+- Script body will be as below...   
 
         pipeline {
             agent any
@@ -62,24 +60,25 @@ Jenkins Pipeline
             }
         }
 
-#####Declarative Pipeline Syantx
+##### Creating a Declarative Pipeline
 - Declarative pipeline must start with `pipeline` block.
-- It is required to have a `agent` section, `stages`section and at leat one `stage` section and at least one `steps` section.
-- Above pipeline example is the minimal pipeline with required sections.
+- A declarative piplein  **required** to have an `agent` section, a `stages`section and at leat one `stage` section and at least one `steps` section.
+- Above pipeline example is the **minimal** pipeline with required sections.
   
-######Agent
-- `agents` section specifies the machine where the commands of pipline will run. We can use several parameter to specify the an agent.
+###### Agent
+- `agents` section specifies the machine where the commands or more specifically stages, of pipline will run. We can use several parameter to specify the an agent.
 - Some of the parameters as as `any`, `label`, `docker` and `none`.
-- `any` : We are letting jenkins to run the pipeline on first avialebl executer. Generaly used when using controller as executer as well.
+- `any` : We are letting jenkins to run the pipeline on first available  executer. Generaly used when using controller as executer as well.
 - `agent { label 'linux' }` : runs on the agent which have specified label.
 - `agent { docker { image 'maven' } }` run the pipeline inside a docker container using specified image.When need fresh environment for each build.
 - `agent none` : defer agent selection to stages.Allows to use diffrent agent for diffrent stages in pipeline.
 
-######Stages
+###### Stages
 - In the stages section of a pipeline, we identify specific parts of the process being automated. 
-- If we were developing a CICD pipeline, for example, we could use stages named `build, test, and deploy` to represent the actions needed for an application deployment. Each stage must contain at least one steps section. 
+- If we were developing a CICD pipeline, for example, we could use stages named `build, test, and deploy` to represent the actions needed for an application deployment.
+-  Each stage must contain at least one steps section. 
 - In the steps section, we list the commands that actually do something. This is where we run programs, scripts and commands that interact with the compute platform that the pipeline is running. 
-- We can have multiple commands in each step. Let's create a new pipeline that has multiple stages and steps.
+- We can have **multiple commands** in each step. Let's create a new pipeline that has multiple stages and steps.
   
 
         pipeline {
@@ -109,19 +108,19 @@ Jenkins Pipeline
                 }
             }
         }
-- Test above pipelin by pasting in the script body in the piplein script in Jenkins job.
+- Test above pipeline by pasting in the script body in the piplein script in Jenkins job.
 
-######Piepeline Steps
-- Stpes are the smallest unit and buildg blocks that runs to do actual work.
+###### Piepeline Steps
+- Stpes are the smallest unit and building blocks that runs to do actual work.
 - Various plugins provide various steps for diffrent types of work.
 - `echo` : Just print the message on console.
 - `git` : Checkout repo from git repository
 - `sh` : Run a script of local command
 - `archiveArtifact` : Archive artifacts created by the Job
 - Basic Steps reference: https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
-- Additional Piplein stpes for tools and plugins: https://www.jenkins.io/doc/pipeline/steps/
+- Additional Pipline stpes for tools and plugins: https://www.jenkins.io/doc/pipeline/steps/
 
-#####Pipeline Snippet Generator
+##### Pipeline Snippet Generator
 - Jenkins provides a pipeline syntax generator that we can use to crate Snippets of code that we can copy into a pipeline.
 - You can find the syntax generator by clicking the Pipeline synax link at the bottom of the pipeline editor window or by opening [YOUR_JENKINS_SERVER_URL]/pipeline-syntax.
   
@@ -154,16 +153,16 @@ Jenkins Pipeline
                 }
             }
         }
-Use the snippet generator to create a step for the following pipeline that archives all files ending with .txt:
+- Use the snippet generator to create a step for the following pipeline that archives all files ending with .txt:
 
-#####Variables in Pipeline
-- There are three types of variabes as `Environment, parameters and build`.
+##### Variables in Pipeline
+- There are three types of variabes as `Environment, parameters` and `build`.
 
 
-######Environment Variables
-- The Usual practice is to use all CAPS for enviornment varaibel.
+###### Environment Variables
+- The Usual practice is to use all `CAPS` for enviornment varaibel.
 - Can be scoped globally for entire pipeline or localy for a single stage.
----Globally Scoped
+--- Globally Scoped
 
         pipeline {
             agent any
@@ -173,6 +172,7 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
             ...
         }
+
 --- Locally Scoped
 
         pipeline {
@@ -192,7 +192,7 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
         }
 - We can reference the variables in the following any ways..
-- `env.VAR_NAME or VAR_NAME or $env.VAR_NAME or $VAR_NAME or ${env.VAR_NAME} or ${VAR_NAME}`
+- `env.VAR_NAME ` or `VAR_NAME` or `$env.VAR_NAME` or `$VAR_NAME` or `${env.VAR_NAME}` or `${VAR_NAME}`
 - Example as below...
 - 
         pipeline {
@@ -221,15 +221,16 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
         }
 
-######currentBuild Variables
+###### currentBuild Variables
 - currentBuild variables allow pipeline steps to reference the state of a build while it's running. 
-- This can be useful for dynamic operations that need to do something specific based on a previous step or a certain status in the build.
--  All of the currentBuild variables are actually properties of one variable named `currentBuild`.
-- Please note that this variable is case sensitive. It starts with a lowercase c and the B in build is capitalized. 
-- To access the currentBuild properties the values are proceeded by currentBuild, a dot and then the name of the property. The properties are also case sensitive and follow the CamelCase format with a lower case letter to start, and capital letters for each additional word in the variable name.
-- A few examples of currentBuild variables are the start time, the duration of the build and the current status of the build. Just like environment variables, these values need to be proceeded by a dollar sign if they are used in strings.
+- This can be useful for **dynamic** operations that need to do something specific based on a previous step or a certain status in the build.
+-  All of the currentBuild variables are actually properties of one variable named `currentBuild`. 
+- To access the currentBuild properties the values are proceeded by currentBuild, a dot and then the name of the property.
+- A few examples of currentBuild variables are the start time.
+- `currentBuild.duration`, `currentBuild.currentResult`
+- This can be referenced in same ways as enviornment variables.
 
-######Parameter Variables
+###### Parameter Variables
 - Parameters are another type of variable that get their values at the time the `job is triggered`.
 -  Parameters are defined in a `parameters block`, which is placed at the beginning of the pipeline code. 
 
@@ -240,17 +241,16 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
             …
         }
-- Much like we've seen with environment variables, parameters are accessed by their name proceeded by the params prefix. And if they're used in a string, they need to have a dollar sign at the beginning and can also be wrapped in curly braces. 
 
-        params.PARAMETER_NAME
-        “${params.PARAMETER_NAME}”
+- Much like we've seen with environment variables, parameters are accessed by their name proceeded by the params prefix(` params.PARAMETER_NAME`). 
+- And if they're used in a string, they need to have a dollar sign at the beginning and can also be wrapped in curly braces(`“${params.PARAMETER_NAME}”`)
+
 - Each parameter definition must include `a name, a default value, and a description` that explains the type of value that should be entered. Typically parameter names are assigned using all capital letters, so they can be easily identified in the code. 
 - For pipelines, there are five different types of parameters we can use. `Strings, blocks of text, booleans, choices, and passwords`. 
-- String and text parameters are represented by a text field in the Jenkins interface, where a user can enter freeform text. String parameters are best used for single word values. Text parameters are useful if you need to pass in a long block of text that contains multiple lines. 
-- Boolean parameters let us pass in true or false values and are represented by a check mark in the Jenkins interface. 
-- Choice parameters present the user with a list of options to choose from. When we create a choice parameter, the options are entered as a list. We don't have to specify a default though because the first value in this list will be used as the default value in the Jenkins interface. 
-- Password parameters can be used to enter sensitive values like passwords and API keys. Password values are entered in the same way that string parameters are entered. However, password values are masked to keep them from being exposed. 
-- Because pipeline parameters can change the Jenkins interface, it causes a sort of chicken and egg scenario. We can create a pipeline that defines parameters, but those parameters are not immediately available to the Jenkins job. So after you create a pipeline with parameters, you'll need to run the pipeline, which will actually encounter an error, especially if the default values are blank or aren't available for the job to process. But once the job is run a second time, the parameters will be available to be used. 
+-  
+- Choice parameters present the user with a list of options to choose from. When we create a choice parameter, the options are entered as a `list`. We don't have to specify a default though because the first value in this list will be used as the default value in the Jenkins interface. 
+- Password parameters can be used to enter sensitive values like passwords and API keys. However, password values are masked to keep them from being exposed. 
+- Because pipeline parameters can change the Jenkins interface,.- - We can create a pipeline that defines parameters, but those parameters are not immediately available to the Jenkins job. So after you create a pipeline with parameters, you'll need to run the pipeline.
 - This is also the case if parameters are added or changed. If you modify or add a parameter, the pipeline will need to be run once before the change is applied. 
 
         pipeline {
@@ -289,8 +289,9 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
         }
 
-######Conditional Expressions
-- When we're developing pipelines we might need to use logic to determine if a stage should be run or not. We might also need to add some sort of manual interaction to an automated process. 
+###### Conditional Expressions
+- When we're developing pipelines we might need to use logic to determine if a stage should be run or not.
+-  We might also need to add some sort of manual interaction to an automated process. 
 
         pipeline {
         agent any
@@ -300,7 +301,9 @@ Use the snippet generator to create a step for the following pipeline that archi
             }
         }
         }
-- To set up a pipeline condition, we use the `when` keyword inside a stage block. The when block uses three built in conditions to determine if the steps in a stage should be run. The conditions are `branch, environment, and expression`. If the specified condition evaluates to true, then the stage will be allowed to run, otherwise the stage will be skipped. 
+- To set up a pipeline condition, we use the `when` keyword inside a stage block. 
+- The when block uses three built in conditions to determine if the steps in a stage should be run. 
+- The conditions are `branch, environment, and expression`. If the specified condition evaluates to true, then the stage will be allowed to run, otherwise the stage will be skipped. 
 
 |Condition  |Syntax                                                       |
 |:----------|:------------------------------------------------------------|
@@ -309,10 +312,10 @@ Use the snippet generator to create a step for the following pipeline that archi
 |expression |`when { expression { params.ENVIRONMENT == 'PRODUCTION' }}`  |
 
 
-- Branch conditions are useful when the pipeline is interacting with a version control system like GitHub. This allows us to only run stages for specific branches in a repo. 
-- Environment conditions evaluate to true, if the specified environment variable is present and it contains the specified value. This can be useful for building projects that interact with different environments. 
+-  This allows us to only run stages for specific branches in a repo. 
+- Environment conditions evaluate to true, if the specified environment variable is present and it contains the specified value. 
 - Expression conditions provide the most flexibility for conditional statements. We can use `groovy expressions` along with parameters and other variables to build a statement that returns true or false. 
-- Along with conditionals, we can use the `input` step to control the flow of a pipeline. The input step pauses a triggered pipeline and waits for manual interaction to determine if the pipeline should proceed, or abort. We can also configure an input step with a custom message to give more information on what will happen if the job were to proceed. 
+- Along with conditionals, we can use the `input` step to control the flow of a pipeline. The input step pauses a triggered pipeline and waits for manual interaction to determine if the pipeline should proceed, or abort.
 
         pipeline {
         agent any
@@ -366,14 +369,12 @@ Use the snippet generator to create a step for the following pipeline that archi
 Jenkins with VCS
 ----------------
 - Pipelines as Code with `Jenkinsfile` checked in code repo itself.
+- We can use Jenkins file to define `tools`, `options`, `triggers`, `agents`, `stages`, `post` etc.
+- Jenkins can retrieve pipeline configurations from version control systems like GitHub. 
+-  In turn, GitHub can connect send webhooks to Jenkins that trigger jobs when a change is pushed to a repo.
 
-Jenkins can retrieve pipeline configurations from version control systems like GitHub.  In turn, GitHub can connect send webhooks to Jenkins that trigger jobs when a change is pushed to a repo.
 
-To demonstrate connecting Jenkins and GitHub, the following need to be in place:
-- A Jenkins server that is publicly accessible on the internet
-- A GitHub account
-
-Follow these steps to connect Jenkins to GitHub.
+- Follow these steps to connect Jenkins to GitHub.
 
 - Create a new pipeline project in your Jenkins server.
     - Select `New Item`
@@ -469,27 +470,27 @@ Follow these steps to connect Jenkins to GitHub.
             }
         }
 
-Pipelines can be used to call scripts that are stored in a repo along with a Jenkinsfile.
+- Pipelines can be used to call scripts that are stored in a repo along with a Jenkinsfile.
 
-####Pipeline steps for calling scripts
+##### Pipeline steps for calling scripts
 
-The `sh()` build step is used to run shell commands on Linux, Unix, and macOS systems.
+- The `sh()` build step is used to run shell commands on Linux, Unix, and macOS systems.
 
-The `bat()` build step is used to run shell commands on Windows systems.
+- The `bat()` build step is used to run shell commands on Windows systems.
 
-## Paths to scripts
-Relative paths can be used to reference files from the root of the repo.
+##### Paths to scripts
+- Relative paths can be used to reference files from the root of the repo.
 ```
 sh(‘./scripts/build.sh’)
 bat(‘..\scripts\build.bat’)
 ```
 
-Absolute paths can be used to reference files in the workspace or in other locations on the systems where the job is being run.
+- Absolute paths can be used to reference files in the workspace or in other locations on the systems where the job is being run.
 ```
 sh(‘/usr/local/bin/build.sh’)
 bat(‘C:\bin\build.bat’)
 ```
-The `dir()` build step can be used to change directories for other build steps.
+- The `dir()` build step can be used to change directories for other build steps.
 ```
 dir("${env.WORKSPACE}/environments/test"){
 sh(‘’’
@@ -502,10 +503,128 @@ sh(‘’’
 
 Agent and Distributed Build:
 ----------------------------
-- The Jenkins server, which is also referred to as the Jenkins controller provides a web interface that we can use to manage the overall configuration of our Jenkins server. A best practice though, is to limit the jobs that are run on the controller, and only run jobs on other servers, which are referred to as nodes or agents. This approach frees up CPU, memory, and hard drive space on the Jenkins controller so it can use those resources for management tasks like scheduling jobs. 
-- A node is another server or system that is connected to Jenkins over a network. Nodes provide the Jenkins controller with a compute resource for running jobs. When Jenkins starts a job on a node, the job is managed by a process called an agent. The agent runs the commands in the job definition, and reports the status back to the Jenkins controller. In reality, nodes and agents are different parts of a Jenkins system but you will often hear either term used to refer to an external system where Jenkins runs jobs. 
-- There are many types of nodes and agents that Jenkins can use as compute resources. One of the most common node types is a secure shell or SSH node. In this case, Jenkins connects to a server as a specific user with an SSH key. This secure method is particularly useful if the node is not on the same network as the Jenkins controller. A server running any operating system can be configured as an SSH node as long as it accepts SSH connections has a user and a key that Jenkins can use, and also has a recent version of Java installed. Having Java installed on the node is essential because the agent process is a Java-based application. 
+- The Jenkins server, which is also referred to as the Jenkins controller provides a web interface that we can use to manage the overall configuration of our Jenkins server.
+-  A best practice though, is to limit the jobs that are run on the controller, and only run jobs on other servers, which are referred to as nodes or agents.  
+- A `node` is another server or system that is connected to Jenkins over a network. 
+- Nodes provide the Jenkins controller with a compute resource for running jobs. 
+- When Jenkins starts a job on a node, the job is managed by a process called an `agent`. The agent runs the commands in the job definition, and reports the status back to the Jenkins controller. 
+- In reality, nodes and agents are different parts of a Jenkins system but you will often hear either term used to refer to an external system where Jenkins runs jobs. 
+- There are many types of nodes and agents that Jenkins can use as compute resources. 
+- One of the most common node types is a secure shell or `SSH` node. In this case, Jenkins connects to a server as a specific user with an SSH key. 
+- This secure method is particularly useful if the node is not on the same network as the Jenkins controller. 
 - Jenkins can also use nodes and agents that run as containers also known as Docker agents. With Docker agents, the Jenkins controller runs jobs in a newly created container on each build. This has the benefit of the job running in a fresh and isolated environment every time. 
 - For Docker agents to work, a Docker process must be running on the node. When we start using nodes, and agents in pipeline jobs, there are some things we have to keep in mind. 
-- First, we have to pay more attention to the agent configuration. So far we've been using agent any, which allows Jenkins to run the job on the first available agent. But as we start adding nodes, and agents with different capabilities, we can use labels or keywords that identify a specific agent. We may also need to configure a pipeline to install any tools that it needs to run. This will give a pipeline more control over the version of a specific tool while also making sure the tool is available to use. 
-- Another thing we need to pay attention to is checking out code when a job is associated with a repository. When Jenkins uses a pipeline from a repository, the first checkout is on the Jenkins controller. This allows Jenkins to read and process the Jenkins file to get the project configuration. When Jenkins starts running the job on an agent, the code that was initially checked out won't be available. In this case, the pipeline needs to be updated with a step to check out the code so that it can be used on the agent.
+- **Another thing we need to pay attention to is checking out code when a job is associated with a repository. When Jenkins uses a pipeline from a repository, the first checkout is on the Jenkins controller. This allows Jenkins to read and process the Jenkins file to get the project configuration. When Jenkins starts running the job on an agent, the code that was initially checked out won't be available. In this case, the pipeline needs to be updated with a step to check out the code so that it can be used on the agent.**
+
+Artifacts and Testing
+---------------------
+##### Artifacts and Finferprintimg
+- When a Jenkins job creates an object that needs to be saved, we refer to that object as an artifact.
+-  Artifacts can be compiled binaries like Docker images or ZIP files. Or an artifact might be a text file like a report or some sort of document. - The core function `archiveArtifacts`, gives us a built step for identifying the files we want to save during or after a build.
+-  archiveArtifacts is often placed in the post section of a pipeline. The post block runs after all sections of a pipeline, so any steps inside the block are run after other operations have finished. 
+-  If we're developing a job that needs to access an artifact created in another job, we can use build steps provided by the `Copy Artifact plugin`. - When we use the Copy Artifact's build step, security comes into play. The job that creates the artifact must include an option that gives another job explicit permission to copy the artifact. 
+- When an artifact is created or used, Jenkins generates an MD5 checksum using the artifact. This becomes the file's fingerprint. 
+- Jenkins can then use the fingerprint to determine what jobs either created or accessed a file.    
+
+##### Test and code coverage reports
+- Use code coverage and test reports plugins
+
+Securing Jenkins
+----------------
+- Jenkins can be configured to use different `security realms`. Using a very brief explanation, a security realm controls how a person is authenticated to access a resource. 
+- The default realm is a `user database` included in the Jenkins server. This is where Jenkins creates the first users with permission to access the system when the service is installed. 
+- Jenkins can also delegate authorization to other realms, including Lightweight Directory Access Protocol services, also known as LDAP, or systems that use Unix-style users and groups. 
+-  When Jenkins first starts, any authenticated user can do anything. This essentially means that any user that can log in is an administrator. 
+- it's a best practice to have one or two administrative users and then delegate permissions to all other users based on how they need to interact with the Jenkins server. 
+- Jenkins allows this to be configured fairly easily with matrix-based security. To configure user permissions, most Jenkins installations will use the Matrix Authorization Strategy plugin.
+- Using a matrix strategy, permissions are assigned to each user individually. In addition, each user is given specific permission to perform certain actions.
+
+#### Configurae Project Based Security
+- Project Based Matrix
+
+#### Using secrets and credentials
+- Jenkins can store and manage sensitive values natively.
+
+- Sensitive values are referred to as secrets or credentials.  Both terms are used with the same meaning in this course.
+
+## Types of credentials
+- Jenkins supports several types of credentials including
+  - Usernames and passwords
+  - SSH Keys
+  - Files
+  - Text strings
+
+- Installing plugins may expose other types of credentials.
+
+## Accessing credentials in a pipeline
+- Credentials can be accessed several ways in a pipeline but the two most common ways are using the `credentials()` function or the `withCredentials(){}` step.
+
+## Accessing credentials with credentials()
+- The credentials function is used to assign sensitive values to one or more environment variables.  It takes the ID of a secret stored in Jenkins as its argument.
+
+- With most credential types, `credentials()` will return one value.
+```
+environment {
+    SECRET_VALUE = credentials(‘secret-value’)
+}
+
+env.SECRET_VALUE 
+```
+
+- However, when the credentials function is used with a username and password credential, three variables are returned.
+
+```
+environment {
+    LOGIN = credentials(‘login’)
+}
+
+env.LOGIN
+env.LOGIN_USR
+env.LOGIN_PSW
+```
+
+
+## Accessing credentials with withCredentials(){}
+- `withCredentials` is a build step that retrieves a secret value and assigns it to a variable.  Any steps that are placed inside the withCredentials step will have access to the secret.
+
+```
+steps {
+    withCredentials([string(credentialsId: 'apikey', variable: 'API_KEY')]) {
+        echo “${env.API_KEY}”
+    }
+}
+```
+
+## Example pipeline using credentials
+- Use the following pipeline to experiment with accessing credentials.  
+
+- Before running the pipeline, create two credentials:
+
+  - `user1` using the "Username and password" type
+  - `apikey` using the "Secret text" type
+  
+- Review the output after running the pipeline to note any references to the values the credentials contain.
+
+```Jenkinsfile
+pipeline {
+    agent any
+    environment {
+      USER1 = credentials('user1')
+    }
+    stages {
+        stage('Test') {
+            steps {
+                withCredentials([string(credentialsId: 'apikey', variable: 'APIKEY')]) {
+                    echo env.APIKEY
+                    echo env.USER1
+                    echo env.USER1_USR
+                    echo env.USER1_PSW
+
+                    // This should cause a warning
+                    echo "${env.APIKEY}"
+                }
+            }
+        }
+    }
+}
+```
